@@ -3,15 +3,15 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"path/filepath"
 )
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println(r.URL.Path)
-		http.ServeFile(w, r, filepath.Join("www", r.URL.Path))
+	http.HandleFunc("/url", func(w http.ResponseWriter, r *http.Request) {
+		// fmt.Fprintln(w, r.URL.Path)+
+		fmt.Fprintln(w, r.Header)
+		fmt.Fprintln(w, r.Header["Accept-Encoding"])
+		fmt.Fprintln(w, r.Header.Get("Accept-Encoding"))
 	})
 
 	http.ListenAndServe(":8080", nil)
-	http.ListenAndServe(":8080", http.FileServer(http.Dir("www")))
 }
