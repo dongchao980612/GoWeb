@@ -1,20 +1,24 @@
 package main
 
 import (
-	"log"
+	"fmt"
 	"net/http"
 )
 
 func main() {
-	http.HandleFunc("/home", func(w http.ResponseWriter, r *http.Request) {
-		url := r.URL
-		query := url.Query()
+	http.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, "application/x-www-form-urlencoded")
+		r.ParseForm()
+		fmt.Fprintln(w, "Form", r.Form)
+		fmt.Fprintln(w, "PostForm", r.PostForm)
+		fmt.Fprintln(w, "multipart/form-data")
+		fmt.Fprintln(w, "MultipartForm", r.MultipartForm)
+		r.ParseMultipartForm(1024)
+		fmt.Fprintln(w, r.MultipartForm)
 
-		id := query.Get("id")
-		name := query.Get("name")
-
-		log.Printf("id: %s, name: %s", id, name)
-
+		fmt.Fprintln(w, "application/x-www-form-urlencoded")
+		fmt.Fprintln(w, r.FormValue("username"))
+		fmt.Fprintln(w, r.PostFormValue("username"))
 	})
 
 	http.ListenAndServe(":8080", nil)

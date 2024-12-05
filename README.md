@@ -5,7 +5,7 @@
 发布时间：2024-12-4
 更新时间：2021-12-4
 
-## 课程准备和一个demo
+## 1、课程准备和一个demo
 
 ```go
 package main
@@ -22,7 +22,7 @@ func main() {
 }
 ```
 
-## Handle请求
+## 2、Handle请求
 
 ```go
 // 方法一：
@@ -84,9 +84,9 @@ func main() {
 }
 ```
 
-## 内置handler
->
-> 访问http://localhost:8080/index.html，将会返回www/index.html的内容  
+## 3、内置handler
+
+> 访问<http://localhost:8080/index.html，将会返回www/index.html的内容>  
 
 ```go
 // 方法一：
@@ -102,7 +102,7 @@ http.ListenAndServe(":8080", http.FileServer(http.Dir("www")))
  
 ```
 
-## Request对象
+## 4、Request对象
 
 ```go
 http.HandleFunc("/url", func(w http.ResponseWriter, r *http.Request) {
@@ -135,4 +135,22 @@ http.HandleFunc("/home", func(w http.ResponseWriter, r *http.Request) {
 })
 
 http.ListenAndServe(":8080", nil)
+```
+
+## 5、Form表单
+
+```go
+fmt.Fprintln(w, "application/x-www-form-urlencoded")
+r.ParseForm()
+fmt.Fprintln(w, "Form", r.Form)
+fmt.Fprintln(w, "PostForm", r.PostForm)
+fmt.Fprintln(w, "multipart/form-data")
+fmt.Fprintln(w, "MultipartForm", r.MultipartForm)
+r.ParseMultipartForm(1024)
+fmt.Fprintln(w, r.MultipartForm)
+
+fmt.Fprintln(w, "application/x-www-form-urlencoded")
+fmt.Fprintln(w, r.FormValue("username"))
+fmt.Fprintln(w, r.PostFormValue("username"))
+
 ```
